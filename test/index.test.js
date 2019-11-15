@@ -5,6 +5,8 @@ const { Probot } = require('probot')
 // Requiring our fixtures
 const payload = require('./fixtures/pull_request.opened')
 
+const { postQRCode } = require('../');
+
 const deployment = {
   ref: 'hiimbex-patch-1',
   task: 'deploy',
@@ -66,6 +68,22 @@ describe('My Probot app', () => {
     // Receive a webhook event
     await probot.receive({ name: 'pull_request', payload })
   })
+
+  test("deployment", async () => {
+    qrCode = postQRCode({
+      payload: {
+        deployment: {
+          environment: 'qwe-4',
+          payload: {
+            web_url: 'qwe-4'
+          }
+        }
+      },
+      issue: () => {}
+    });
+
+    expect(qrCode).toEqual('asd');
+   });
 })
 
 // For more information about testing with Jest see:

@@ -20,6 +20,7 @@
     "test:watch": "jest --watch --notify --notifyMode=change --coverage"
   },
   "dependencies": {
+    "aws-sdk": "^2.572.0",
     "probot": "^7.2.0",
     "qrcode": "^1.4.4"
   },
