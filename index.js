@@ -1,3 +1,5 @@
+const QRCode = require('qrcode');
+
 // Deployments API example
 // See: https://developer.github.com/v3/repos/deployments/ to learn more
 
@@ -18,6 +20,29 @@ module.exports = app => {
     const deploymentURL = context.payload.deployment.payload.web_url;
 
     console.log(`Here's the URL: ${deploymentURL}`);
+
+    QRCode.toDataURL(deploymentURL, function(err, url) {
+      if (err) console.log(`error: ${err}`);
+      // const markdownImg = `![GitHub Logo](${url})`;
+      const markdownImg = `<img src="${url}" alt="" />`;
+      const params = context.issue({ body: markdownImg });
+      params.number = 4;
+      context.github.issues.createComment(params);
+    });
+    
+    // console.log(qrcode);
+
+    // const postQRComment = () => {
+    //   return context.github.issues.createComment(
+    //     context.issue({ body: qrcode })
+    //   );
+    // }
+
+    // postQRComment();
+
+
+
+    // return context.github.issues.createComment(context.issue({body: template}))
 
     // Probot API note: context.repo() => { username: 'hiimbex', repo: 'testing-things' }
     // const res = await context.github.repos.createDeployment(context.repo({
